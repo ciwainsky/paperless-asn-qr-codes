@@ -13,10 +13,15 @@ def render(c, x, y):
     barcode_value = f"ASN{startASN:0{digits}d}"
     startASN = startASN + 1
     #print ("Rendering for label-size ",x," ",y)
-    qr = QRCodeImage(barcode_value, size=y * 0.9, border=2)
-    qr.drawOn(c, .5 * mm, y * 0.05)
-    c.setFont("Helvetica", 2.9 * mm)
-    c.drawString(y, (y - 2 * mm) / 2, barcode_value)
+    qr_factor = 0.85
+    qr_size = qr_factor * y
+    qr_border=y*(1-qr_factor)/2.0
+
+    #qr = QRCodeImage(barcode_value, size=y * 0.85, border=2)
+    qr = QRCodeImage(barcode_value, size=qr_size, border=qr_border)
+    qr.drawOn(c, .5 * mm, y * (1-qr_factor)/2.0)
+    c.setFont("Helvetica", 2.7 * mm)
+    c.drawString(y-.5*mm, (y - 2 * mm) / 2, barcode_value)
 
 def render_special(c, x, y):
     global startASN
